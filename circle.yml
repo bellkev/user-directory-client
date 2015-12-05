@@ -8,6 +8,9 @@ dependencies:
     - docker-compose up:
         background: true
     - curl --retry 10 --retry-delay 5 "http://$DOCKER_IP:8001"
+    - createdb -h $DOCKER_IP -u postgres directory
+    - psql -h $DOCKER_IP -u postgres -d directory -f schema.sql
+    - psql -h $DOCKER_IP -u postgres -d directory -f data.sql
 test:
   override:
     - nosetests
