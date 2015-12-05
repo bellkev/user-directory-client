@@ -5,14 +5,14 @@ dependencies:
   pre:
     - curl -L https://github.com/docker/compose/releases/download/1.5.0/docker-compose-`uname -s`-`uname -m` > ../bin/docker-compose && chmod +x ../bin/docker-compose
     - docker-compose pull
+test:
+  override:
     - docker-compose up:
         background: true
     - ./wait-for-stack.sh
     - createdb -h $DOCKER_IP -U postgres -p 15432 directory
     - psql -h $DOCKER_IP -U postgres -p 15432 -d directory -f schema.sql
     - psql -h $DOCKER_IP -U postgres -p 15432 -d directory -f data.sql
-test:
-  override:
     - nosetests
     - docker-compose stop
     - docker-compose rm -f
