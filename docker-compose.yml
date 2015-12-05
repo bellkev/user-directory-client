@@ -1,0 +1,19 @@
+pg:
+  image: postgres:9.4.5
+  expose:
+    - 5432
+  ports:
+    - "15432:5432"
+pca:
+  image: bellkev/postgres-cowsay-adapter:alpha1
+  expose:
+    - 8000
+  ports:
+    - "8001:8000"
+  links:
+    - pg
+  environment:
+    HOST: "$DOCKER_IP"
+    PORT: 8000
+    POSTGRES_RELATION: username
+    POSTGRES_ARGS: "-U postgres -d directory -h pg"
