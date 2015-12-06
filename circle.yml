@@ -9,8 +9,8 @@ test:
   override:
     - docker-compose up:
         background: true
-    - ./load-test-data.sh
     - ./wait-for-stack.sh
+    - ./load-test-data.sh
     - nosetests
     - docker-compose stop
     - docker-compose rm -f
