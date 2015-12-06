@@ -9,10 +9,8 @@ test:
   override:
     - docker-compose up:
         background: true
+    - ./load-test-data.sh
     - ./wait-for-stack.sh
-    - createdb -h $DOCKER_IP -U postgres -p 15432 directory
-    - psql -h $DOCKER_IP -U postgres -p 15432 -d directory -f schema.sql
-    - psql -h $DOCKER_IP -U postgres -p 15432 -d directory -f data.sql
     - nosetests
     - docker-compose stop
     - docker-compose rm -f
